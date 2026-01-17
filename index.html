@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vodacom - Venda de Pacotes de Internet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background: linear-gradient(135deg, #e10000 0%, #a80000 100%);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.8rem;
+            color: #ffffff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out 0.5s both;
+        }
+
+        /* Painel de Produtos */
+        .products-panel {
+            flex: 2;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #eaeaea;
+            opacity: 0;
+            animation: cardAppear 0.6s ease-out forwards;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(225, 0, 0, 0.15);
+        }
+
+        .product-header {
+            background: linear-gradient(to right, #e10000, #ff3333);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            animation: priceGlow 2s infinite alternate;
+        }
+
+        @keyframes priceGlow {
+            from { text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 15px rgba(255,255,255,0.8); }
+        }
+
+        .product-body {
+            padding: 25px;
+            position: relative;
+        }
+
+        .product-details {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .product-details li {
+            padding: 12px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+            transition: padding 0.3s ease;
+        }
+
+        .product-details li:hover {
+            padding-left: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .product-details li:last-child {
+            border-bottom: none;
+        }
+
+        .product-details strong {
+            color: #e10000;
+            font-weight: 700;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(to right, #e10000, #ff3333);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-to-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .add-to-cart:hover::before {
+            left: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(to right, #c00000, #e60000);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(225, 0, 0, 0.3);
+        }
+
+        /* Painel Lateral */
+        .sidebar {
+            flex: 1;
+            max-width: 400px;
+            animation: slideInRight 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid #eaeaea;
+            transform-origin: top;
+        }
+
+        .cart-header {
+            background: linear-gradient(to right, #333, #555);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cart-count {
+            background: linear-gradient(to right, #e10000, #ff3333);
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            animation: countPop 0.3s ease;
+        }
+
+        @keyframes countPop {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .cart-body {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            transition: max-height 0.3s ease;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: #888;
+            padding: 30px 20px;
+            font-style: italic;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            animation: itemSlide 0.3s ease;
+            transition: background-color 0.3s ease;
+        }
+
+        @keyframes itemSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: #e10000;
+            font-size: 1.1rem;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff3333;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-item:hover {
+            background-color: #ffeaea;
+            transform: rotate(90deg);
+        }
+
+        .cart-total {
+            padding: 20px;
+            background: linear-gradient(to right, #f9f9f9, #f0f0f0);
+            border-top: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 700;
+            animation: totalSlide 0.3s ease;
+        }
+
+        @keyframes totalSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .total-price {
+            color: #e10000;
+            animation: priceBounce 0.5s ease;
+        }
+
+        @keyframes priceBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Formulário */
+        .form-panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+        }
+
+        .form-header {
+            background: linear-gradient(to right, #333, #555);
+            color: white;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            animation: formGroupAppear 0.5s ease;
+        }
+
+        @keyframes formGroupAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #e10000;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(225, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input.valid {
+            border-color: #28a745;
+        }
+
+        .form-group input.invalid {
+            border-color: #dc3545;
+        }
+
+        .phone-hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e10000;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(to right, #25D366, #1da851);
+            color: white;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .checkout-btn:hover::before {
+            left: 100%;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(to right, #1da851, #1a9547);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-icon {
+            font-size: 1.5rem;
+            animation: whatsappPulse 2s infinite;
+        }
+
+        @keyframes whatsappPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #666;
+            border-top: 1px solid #eee;
+            background-color: white;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .logo-icon {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Estilos para mensagens */
+        .message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            animation: messageSlide 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background-color: currentColor;
+            opacity: 0.5;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Animações de produtos */
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+        .product-card:nth-child(7) { animation-delay: 0.7s; }
+
+        .form-group:nth-child(1) { animation-delay: 0.4s; }
+        .form-group:nth-child(2) { animation-delay: 0.5s; }
+        .form-group:nth-child(3) { animation-delay: 0.6s; }
+        .form-group:nth-child(4) { animation-delay: 0.7s; }
+        .form-group:nth-child(5) { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">📶</div>
+                <span>Vodacom Internet</span>
+            </div>
+            <p class="tagline">Pacotes de internet rápida e acessível. Compre agora e receba no seu WhatsApp!</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Painel de Produtos -->
+        <main class="products-panel">
+            <h2 style="color: #e10000; margin-bottom: 10px; animation: fadeIn 1s ease-out;">Pacotes de Internet Disponíveis</h2>
+            <p style="color: #666; margin-bottom: 20px; animation: fadeIn 1s ease-out 0.2s both;">Selecione os pacotes que deseja comprar</p>
+            
+            <div id="message" class="message" style="display: none;"></div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Produtos serão inseridos via JavaScript -->
+            </div>
+        </main>
+
+        <!-- Painel Lateral -->
+        <aside class="sidebar">
+            <!-- Carrinho de Compras -->
+            <div class="cart-panel">
+                <div class="cart-header">
+                    <div class="cart-title">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Seu Carrinho</span>
+                    </div>
+                    <div class="cart-count" id="cart-count">0</div>
+                </div>
+                <div class="cart-body" id="cart-items">
+                    <div class="cart-empty" id="cart-empty">
+                        <i class="fas fa-shopping-cart" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.3;"></i>
+                        <p>Seu carrinho está vazio</p>
+                        <p style="font-size: 0.9rem;">Adicione pacotes clicando nos botões "Adicionar ao Carrinho"</p>
+                    </div>
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-price" id="cart-total">0 MT</span>
+                </div>
+            </div>
+
+            <!-- Formulário de Cliente -->
+            <div class="form-panel">
+                <div class="form-header">
+                    <i class="fas fa-user"></i>
+                    <span>Dados do Cliente</span>
+                </div>
+                <div class="form-body">
+                    <form id="client-form">
+                        <div class="form-group">
+                            <label for="client-name" class="required">Nome Completo</label>
+                            <input type="text" id="client-name" placeholder="Digite seu nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone" class="required">Número de Telefone</label>
+                            <input type="tel" id="client-phone" placeholder="Insira número" 
+                                   pattern="[0-9]{9}" 
+                                   maxlength="9"
+                                   required>
+                            <span class="phone-hint">Digite 9 dígito sem +258</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-neighborhood" class="required">Bairro</label>
+                            <input type="text" id="client-neighborhood" placeholder="Digite seu bairro" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-city" class="required">Cidade</label>
+                            <input type="text" id="client-city" placeholder="Digite sua cidade" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-province" class="required">Província</label>
+                            <select id="client-province" required>
+                                <option value="">Selecione a província</option>
+                                <option value="Maputo">Maputo</option>
+                                <option value="Gaza">Gaza</option>
+                                <option value="Inhambane">Inhambane</option>
+                                <option value="Sofala">Sofala</option>
+                                <option value="Manica">Manica</option>
+                                <option value="Tete">Tete</option>
+                                <option value="Zambézia">Zambézia</option>
+                                <option value="Nampula">Nampula</option>
+                                <option value="Cabo Delgado">Cabo Delgado</option>
+                                <option value="Niassa">Niassa</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="checkout-btn" id="checkout-btn">
+                            <i class="fab fa-whatsapp whatsapp-icon"></i>
+                            Fazer sua Compra via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>Vodacom Internet &copy; 2026 - Todos os direitos reservados</p>
+        <p style="font-size: 0.9rem; margin-top: 5px;">Este site não é afiliado à Vodacom. É apenas uma plataforma de venda de pacotes de internet.</p>
+    </footer>
+
+    <script>
+        // Dados dos produtos
+        const products = [
+            {
+                id: 1,
+                name: "Pacote 6MT",
+                price: 6,
+                description: "247MB válido por 1 dia",
+                details: [
+                    { label: "Dados", value: "247 MB" },
+                    { label: "Validade", value: "1 dia" },
+                    { label: "Tipo", value: "Internet Geral" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Pacote 15MT",
+                price: 15,
+                description: "715MB válido por 1 dia",
+                details: [
+                    { label: "Dados", value: "715 MB" },
+                    { label: "Validade", value: "1 dia" },
+                    { label: "Tipo", value: "Internet Geral" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Pacote 40MT WFTTI",
+                price: 40,
+                description: "9000MB válido por 7 dias",
+                details: [
+                    { label: "Dados", value: "9000 MB" },
+                    { label: "Validade", value: "7 dias" },
+                    { label: "Tipo", value: "WFTTI" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Pacote YouTube 5MT",
+                price: 5,
+                description: "381MB válido por 1 dia",
+                details: [
+                    { label: "Dados", value: "381 MB" },
+                    { label: "Validade", value: "1 dia" },
+                    { label: "Tipo", value: "YouTube" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Pacote 25MT",
+                price: 25,
+                description: "857MB válido por 7 dias",
+                details: [
+                    { label: "Dados", value: "857 MB" },
+                    { label: "Validade", value: "7 dias" },
+                    { label: "Tipo", value: "Internet Geral" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Pacote WhatsApp 5MT",
+                price: 5,
+                description: "381MB válido por 1 dia",
+                details: [
+                    { label: "Dados", value: "381 MB" },
+                    { label: "Validade", value: "1 dia" },
+                    { label: "Tipo", value: "WhatsApp" }
+                ]
+            },
+            {
+                id: 7,
+                name: "Pacote 40MT",
+                price: 40,
+                description: "1700MB válido por 1 dia",
+                details: [
+                    { label: "Dados", value: "1700 MB" },
+                    { label: "Validade", value: "1 dia" },
+                    { label: "Tipo", value: "Internet Geral" }
+                ]
+            }
+        ];
+
+        // Carrinho de compras
+        let cart = [];
+
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            updateCart();
+            
+            // Adicionar evento ao botão de finalizar compra
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+            
+            // Validação de número de telefone em tempo real
+            const phoneInput = document.getElementById('client-phone');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 9) value = value.substring(0, 9);
+                e.target.value = value;
+                
+                // Validação visual
+                if (value.length === 9) {
+                    e.target.classList.remove('invalid');
+                    e.target.classList.add('valid');
+                } else {
+                    e.target.classList.remove('valid');
+                    e.target.classList.add('invalid');
+                }
+            });
+            
+            // Formatação automática do telefone
+            phoneInput.addEventListener('blur', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length === 9) {
+                    e.target.value = value.replace(/(\d{2})(\d{3})(\d{4})/, '$1 $2 $3');
+                }
+            });
+        });
+
+        // Renderizar produtos na página
+        function renderProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-header">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">${product.price} MT</div>
+                    </div>
+                    <div class="product-body">
+                        <p style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 600;">${product.description}</p>
+                        <ul class="product-details">
+                            ${product.details.map(detail => `
+                                <li>
+                                    <span>${detail.label}:</span>
+                                    <strong>${detail.value}</strong>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            <i class="fas fa-cart-plus"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Adicionar produto ao carrinho
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            // Verificar se o produto já está no carrinho
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showMessage(`${product.name} adicionado ao carrinho!`, 'success');
+            
+            // Animar o ícone do carrinho
+            const cartCount = document.getElementById('cart-count');
+            cartCount.classList.add('cart-animation');
+            setTimeout(() => {
+                cartCount.classList.remove('cart-animation');
+            }, 300);
+            
+            // Animação do produto
+            const productCards = document.querySelectorAll('.product-card');
+            productCards[productId-1].style.animation = 'cardAppear 0.6s ease-out';
+            setTimeout(() => {
+                productCards[productId-1].style.animation = '';
+            }, 600);
+        }
+
+        // Remover item do carrinho
+        function removeFromCart(productId) {
+            const itemToRemove = cart.find(item => item.id === productId);
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+            showMessage(`${itemToRemove.name} removido do carrinho!`, 'success');
+        }
+
+        // Atualizar carrinho na interface
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            const cartEmpty = document.getElementById('cart-empty');
+            
+            // Atualizar contador com animação
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Atualizar total com animação
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `${totalPrice} MT`;
+            
+            // Animar o total
+            cartTotal.style.animation = 'priceBounce 0.5s ease';
+            setTimeout(() => {
+                cartTotal.style.animation = '';
+            }, 500);
+            
+            // Mostrar/ocultar mensagem de carrinho vazio
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                cartItemsContainer.appendChild(cartEmpty);
+            } else {
+                cartEmpty.style.display = 'none';
+                
+                // Renderizar itens do carrinho
+                let cartItemsHTML = '';
+                cart.forEach(item => {
+                    cartItemsHTML += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                                <div>${item.quantity} x ${item.price} MT</div>
+                            </div>
+                            <div class="cart-item-price">${item.price * item.quantity} MT</div>
+                            <button class="remove-item" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                cartItemsContainer.innerHTML = cartItemsHTML;
+            }
+        }
+
+        // Finalizar compra
+        function checkout() {
+            // Validar formulário
+            const clientName = document.getElementById('client-name').value.trim();
+            const clientPhone = document.getElementById('client-phone').value.trim();
+            const clientNeighborhood = document.getElementById('client-neighborhood').value.trim();
+            const clientCity = document.getElementById('client-city').value.trim();
+            const clientProvince = document.getElementById('client-province').value;
+            
+            // Validação de campos obrigatórios
+            if (!clientName || !clientPhone || !clientNeighborhood || !clientCity || !clientProvince) {
+                showMessage('Por favor, preencha todos os campos obrigatórios!', 'error');
+                return;
+            }
+            
+            // Validação de carrinho vazio
+            if (cart.length === 0) {
+                showMessage('Adicione pelo menos um produto ao carrinho antes de finalizar a compra!', 'error');
+                return;
+            }
+            
+            // Validação rigorosa do número de telefone (exatamente 9 dígitos)
+            let formattedPhone = clientPhone.replace(/\D/g, '');
+            if (formattedPhone.length !== 9) {
+                showMessage('Por favor, insira um número de telefone válido de 9 dígitos!', 'error');
+                document.getElementById('client-phone').classList.add('invalid');
+                document.getElementById('client-phone').focus();
+                return;
+            }
+            
+            // Verificar se o número começa com 84, 85, 86, 87, 82, 83 (prefixos moçambicanos)
+            const validPrefixes = ['84', '85', '86', '87', '82', '83'];
+            const phonePrefix = formattedPhone.substring(0, 2);
+            if (!validPrefixes.includes(phonePrefix)) {
+                showMessage('Número de telefone inválido! Deve começar com 84, 85, 86, 87, 82 ou 83.', 'error');
+                document.getElementById('client-phone').classList.add('invalid');
+                document.getElementById('client-phone').focus();
+                return;
+            }
+            
+            // Formatar número para WhatsApp (258 + número)
+            const whatsappPhone = '258' + formattedPhone;
+            
+            // Criar mensagem para WhatsApp
+            let message = `*NOVA ENCOMENDA - VODACOM INTERNET*\n\n`;
+            message += `*Cliente:* ${clientName}\n`;
+            message += `*Telefone:* ${clientPhone}\n`;
+            message += `*Bairro:* ${clientNeighborhood}\n`;
+            message += `*Cidade:* ${clientCity}\n`;
+            message += `*Província:* ${clientProvince}\n\n`;
+            message += `*ITENS DO PEDIDO:*\n`;
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} - ${item.quantity} x ${item.price} MT = ${item.price * item.quantity} MT\n`;
+            });
+            
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\n*TOTAL: ${totalPrice} MT*\n\n`;
+            message += `*Data:* ${new Date().toLocaleString('pt-MZ', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}`;
+            
+            // Codificar mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappNumber = '258858867098'; // Número de exemplo - SUBSTITUIR PELO SEU NÚMERO
+            
+            // Criar link do WhatsApp
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            // Mostrar mensagem de sucesso
+            showMessage('Pedido enviado com sucesso! Abrindo WhatsApp...', 'success');
+            
+            // Animar o botão de checkout
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.style.animation = 'pulse 0.5s ease';
+            
+            // Abrir WhatsApp após breve delay
+            setTimeout(() => {
+                window.open(whatsappURL, '_blank');
+                checkoutBtn.style.animation = '';
+            }, 1000);
+            
+            // Limpar carrinho após finalizar
+            setTimeout(() => {
+                cart = [];
+                updateCart();
+                document.getElementById('client-form').reset();
+                
+                // Limpar classes de validação
+                document.getElementById('client-phone').classList.remove('valid', 'invalid');
+            }, 2000);
+        }
+
+        // Mostrar mensagem
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Resetar animação
+            messageDiv.style.animation = 'none';
+            setTimeout(() => {
+                messageDiv.style.animation = 'messageSlide 0.5s ease';
+            }, 10);
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
